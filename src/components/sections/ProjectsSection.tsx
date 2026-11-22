@@ -12,27 +12,25 @@ import ProjectDrawer from "./ProjectDrawer";
 
 function ArchitecturePreview({ project }: { project: ProjectItem }) {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-8 select-none bg-[#0B0B0B]">
-      {/* Blueprint grid */}
+    <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-8 select-none bg-[#090B10]/85">
+      {/* Subtle blueprint grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            "linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)",
+            "linear-gradient(rgba(148,163,184,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.8) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
         }}
       />
-      <div className="relative z-10 flex flex-wrap gap-2 justify-center">
-        {project.techStack.slice(0, 5).map((t) => (
-          <span
-            key={t}
-            className="font-mono text-[10px] px-2.5 py-1 rounded border border-white/10 text-[#A1A1AA] tracking-wider uppercase bg-[#121212]"
-          >
-            {t}
+      <div className="relative z-10 flex flex-wrap gap-x-3 gap-y-1.5 justify-center font-mono text-[11px] text-[#CBD5E1]">
+        {project.techStack.slice(0, 5).map((t, idx, arr) => (
+          <span key={t} className="inline-flex items-center gap-3">
+            <span>{t}</span>
+            {idx < arr.length - 1 && <span className="text-[#F59E0B]/60">·</span>}
           </span>
         ))}
       </div>
-      <div className="relative z-10 font-mono text-[11px] text-[#71717A] tracking-widest uppercase text-center">
+      <div className="relative z-10 font-mono text-[11px] text-[#94A3B8] tracking-widest uppercase text-center">
         {project.id}
       </div>
     </div>
@@ -50,8 +48,8 @@ function HeroProjectCard({
 }) {
   return (
     <RevealText>
-      <div className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0E0E0E] group transition-all duration-500 ease-out hover:-translate-y-1">
-        <div className="relative min-h-[260px] lg:min-h-[360px] overflow-hidden bg-[#070707]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-white/[0.09] bg-[#0B0D12]/86 group transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#F59E0B]/35">
+        <div className="relative min-h-[260px] lg:min-h-[360px] overflow-hidden bg-[#07080B]/70">
           {project.thumbnail ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -62,43 +60,39 @@ function HeroProjectCard({
           ) : (
             <ArchitecturePreview project={project} />
           )}
-          <span className="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full bg-[#0D0D0D]/90 border border-white/10 text-[#F4F4F5] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
-            {project.status}
-          </span>
         </div>
 
         <div className="flex flex-col gap-5 p-8 lg:p-10">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2.5 flex-wrap font-mono text-xs text-[#94A3B8]">
+            <span className="text-[#F59E0B]">{project.status}</span>
             {project.year && (
-              <span className="font-mono text-[10px] text-[#71717A] uppercase tracking-widest">
-                {project.year}
-              </span>
+              <>
+                <span aria-hidden="true">·</span>
+                <span className="tabular-nums">{project.year}</span>
+              </>
             )}
             {project.categories.slice(0, 2).map((cat) => (
-              <span
-                key={cat}
-                className="font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-white/[0.08] text-[#71717A] uppercase tracking-wider"
-              >
-                {cat}
+              <span key={cat} className="inline-flex items-center gap-2.5">
+                <span aria-hidden="true">·</span>
+                <span className="text-[#CBD5E1]">{cat}</span>
               </span>
             ))}
           </div>
 
-          <h3 className="font-serif text-[2.1rem] leading-tight text-[#F4F4F5]">
+          <h3 className="font-serif font-semibold text-[2rem] leading-tight text-[#F8FAFC]">
             {project.title}
           </h3>
-          <p className="font-sans text-sm leading-relaxed text-[#A1A1AA]">
+          <p className="font-sans text-[15px] leading-relaxed text-[#CBD5E1]">
             {project.tagline}
           </p>
 
-          <div className="flex flex-wrap gap-1.5">
-            {project.techStack.map((t) => (
-              <span
-                key={t}
-                className="font-mono text-[10px] px-2.5 py-0.5 rounded border border-white/[0.08] bg-[#121212] text-[#A1A1AA] uppercase tracking-wider"
-              >
-                {t}
+          <div className="flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-[11px] text-[#94A3B8]">
+            {project.techStack.map((t, idx, arr) => (
+              <span key={t} className="inline-flex items-center gap-3">
+                <span className="text-[#7DD3FC]">{t}</span>
+                {idx < arr.length - 1 && (
+                  <span aria-hidden="true" className="text-white/20">/</span>
+                )}
               </span>
             ))}
           </div>
@@ -106,7 +100,7 @@ function HeroProjectCard({
           <div className="flex flex-wrap gap-3 mt-auto pt-4">
             <button
               onClick={() => onInspect(project)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#121212] border border-white/15 text-[#F4F4F5] text-sm font-[500] hover:border-white/35 transition-all duration-300"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F59E0B]/15 border border-[#F59E0B]/40 text-[#F8FAFC] text-sm font-medium hover:bg-[#F59E0B]/25 hover:border-[#F59E0B] transition-all duration-200 whitespace-nowrap shrink-0"
             >
               <BookOpen size={14} />
               Inspect Case Study
@@ -116,7 +110,7 @@ function HeroProjectCard({
                 href={project.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-[#A1A1AA] text-sm hover:border-white/30 hover:text-[#F4F4F5] transition-all duration-300"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/12 bg-white/[0.03] text-[#CBD5E1] text-sm hover:border-white/30 hover:text-[#F8FAFC] transition-all duration-200 whitespace-nowrap shrink-0"
               >
                 <GitBranch size={14} />
                 GitHub
@@ -127,7 +121,7 @@ function HeroProjectCard({
                 href={project.links.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-[#A1A1AA] text-sm hover:border-white/30 hover:text-[#F4F4F5] transition-all duration-300"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/12 bg-white/[0.03] text-[#CBD5E1] text-sm hover:border-[#38BDF8]/50 hover:text-[#F8FAFC] transition-all duration-200 whitespace-nowrap shrink-0"
               >
                 <ExternalLink size={14} />
                 Live
@@ -151,8 +145,8 @@ function GridProjectCard({
 }) {
   return (
     <RevealText>
-      <div className="flex flex-col rounded-xl overflow-hidden border border-white/[0.08] bg-[#0E0E0E] group h-full hover:border-white/25 transition-all duration-500 ease-out hover:-translate-y-1">
-        <div className="relative h-44 overflow-hidden bg-[#070707]">
+      <div className="flex flex-col rounded-xl overflow-hidden border border-white/[0.09] bg-[#0B0D12]/86 group h-full hover:border-[#F59E0B]/35 transition-all duration-300 ease-out hover:-translate-y-1">
+        <div className="relative h-44 overflow-hidden bg-[#07080B]/70">
           {project.thumbnail ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -163,32 +157,37 @@ function GridProjectCard({
           ) : (
             <ArchitecturePreview project={project} />
           )}
-          <span className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#0D0D0D]/90 border border-white/10 text-[#F4F4F5] flex items-center gap-1">
-            <span className="w-1 h-1 rounded-full bg-[#D97706]" />
-            {project.status}
-          </span>
         </div>
 
         <div className="flex flex-col gap-3 p-5 flex-1">
-          <h3 className="font-serif text-[1.25rem] text-[#F4F4F5] leading-snug">
+          <div className="flex items-center gap-2 font-mono text-[11px] text-[#94A3B8]">
+            <span className="text-[#F59E0B]">{project.status}</span>
+            {project.year && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span className="tabular-nums">{project.year}</span>
+              </>
+            )}
+          </div>
+          <h3 className="font-serif font-semibold text-[1.25rem] text-[#F8FAFC] leading-snug">
             {project.title}
           </h3>
-          <p className="font-sans text-[13px] text-[#A1A1AA] leading-relaxed line-clamp-2">
+          <p className="font-sans text-[14px] text-[#CBD5E1] leading-relaxed line-clamp-2">
             {project.tagline}
           </p>
-          <div className="flex flex-wrap gap-1 mt-auto pt-1">
-            {project.techStack.slice(0, 4).map((t) => (
-              <span
-                key={t}
-                className="font-mono text-[9px] px-2 py-0.5 rounded border border-white/[0.08] text-[#71717A] uppercase tracking-wider"
-              >
-                {t}
+          <div className="flex flex-wrap gap-x-2.5 gap-y-1 mt-auto pt-1 font-mono text-[11px] text-[#7DD3FC]">
+            {project.techStack.slice(0, 4).map((t, idx, arr) => (
+              <span key={t} className="inline-flex items-center gap-2.5">
+                <span>{t}</span>
+                {idx < arr.length - 1 && (
+                  <span aria-hidden="true" className="text-white/20">/</span>
+                )}
               </span>
             ))}
           </div>
           <button
             onClick={() => onInspect(project)}
-            className="mt-2 self-start flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors"
+            className="mt-2 self-start flex items-center gap-1.5 text-xs font-mono tracking-wider text-[#F8FAFC] hover:text-[#F59E0B] transition-colors whitespace-nowrap shrink-0"
           >
             <BookOpen size={12} />
             Case Study
@@ -225,27 +224,25 @@ function ArchiveRow({
         </motion.div>
 
         <div className="flex flex-1 items-center gap-6 min-w-0">
-          <span className="font-serif text-[1.1rem] text-[#F4F4F5] leading-snug truncate">
+          <span className="font-serif font-medium text-[1.1rem] text-[#F8FAFC] leading-snug truncate">
             {project.title}
           </span>
           {project.year && (
-            <span className="font-mono text-[10px] text-[#71717A] flex-shrink-0">
+            <span className="font-mono text-xs text-[#94A3B8] tabular-nums flex-shrink-0">
               {project.year}
             </span>
           )}
-          <div className="hidden sm:flex gap-2 flex-shrink-0">
-            {project.categories.slice(0, 2).map((cat) => (
-              <span
-                key={cat}
-                className="font-mono text-[9px] px-2 py-0.5 rounded-full border border-white/[0.08] text-[#71717A] uppercase tracking-wider"
-              >
-                {cat}
+          <div className="hidden sm:flex gap-2 flex-shrink-0 font-mono text-[11px] text-[#94A3B8]">
+            {project.categories.slice(0, 2).map((cat, idx) => (
+              <span key={cat} className="inline-flex items-center gap-2">
+                {idx > 0 && <span aria-hidden="true">·</span>}
+                <span>{cat}</span>
               </span>
             ))}
           </div>
         </div>
 
-        <span className="font-mono text-[10px] uppercase tracking-widest text-[#A1A1AA] flex-shrink-0">
+        <span className="font-mono text-xs tracking-wider text-[#F59E0B] flex-shrink-0">
           {project.status}
         </span>
       </button>
@@ -261,13 +258,13 @@ function ArchiveRow({
             className="overflow-hidden"
           >
             <div className="pb-6 pl-11 flex flex-col gap-3">
-              <p className="font-sans text-sm text-[#A1A1AA] leading-relaxed max-w-2xl">
+              <p className="font-sans text-sm text-[#CBD5E1] leading-relaxed max-w-2xl">
                 {project.tagline}
               </p>
-              <div className="flex gap-3 flex-wrap mt-1">
+              <div className="flex gap-4 flex-wrap mt-1">
                 <button
                   onClick={() => onInspect(project)}
-                  className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-mono tracking-wider text-[#F8FAFC] hover:text-[#F59E0B] transition-colors"
                 >
                   <BookOpen size={12} />
                   Case Study
@@ -277,7 +274,7 @@ function ArchiveRow({
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#71717A] hover:text-[#F4F4F5] transition-colors"
+                    className="flex items-center gap-1.5 text-xs font-mono tracking-wider text-[#94A3B8] hover:text-[#F8FAFC] transition-colors"
                   >
                     <GitBranch size={12} />
                     GitHub
@@ -318,13 +315,13 @@ export default function ProjectsSection() {
 
   return (
     <>
-      <section id="work" className="relative py-28 px-6 bg-[#070707]">
+      <section id="work" className="relative py-28 px-6 bg-transparent scroll-mt-24">
         <div className="max-w-6xl mx-auto">
           {/* ── Section index ─────────────────────────────────────── */}
           <div className="mb-8">
             <RevealText>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#71717A]">
-                02 / Selected Work
+              <span className="font-mono text-xs tracking-wider text-[#94A3B8]">
+                <span className="text-[#F59E0B]">02.</span> Selected Work
               </span>
             </RevealText>
             <div className="mt-4">
@@ -332,21 +329,21 @@ export default function ProjectsSection() {
             </div>
           </div>
 
-          {/* ── Monochrome category filter pills ───────────────────── */}
+          {/* ── Interactive category filter tabs ───────────────────── */}
           <div className="flex flex-wrap gap-2 mb-14">
             {allCategories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
-                className="relative px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider transition-colors duration-200 outline-none border border-white/10 hover:border-white/25 bg-[#121212]"
+                className="relative px-4 py-2 rounded-lg text-xs font-mono tracking-wider transition-colors duration-200 outline-none border border-white/10 hover:border-[#F59E0B]/40 bg-[#0B0D12]/90 whitespace-nowrap shrink-0"
                 style={{
-                  color: activeFilter === cat ? "#F4F4F5" : "#71717A",
+                  color: activeFilter === cat ? "#F8FAFC" : "#94A3B8",
                 }}
               >
                 {activeFilter === cat && (
                   <motion.div
                     layoutId="project-filter-pill"
-                    className="absolute inset-0 rounded-full bg-white/[0.08] border border-white/20"
+                    className="absolute inset-0 rounded-lg bg-[#F59E0B]/15 border border-[#F59E0B]/45"
                     transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}

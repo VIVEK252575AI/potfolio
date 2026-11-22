@@ -31,7 +31,7 @@ export const profileData: ProfileData = {
   role: "Aspiring AI Engineer | Software Engineer",
   headline:
     "Building intelligent applications through AI, machine learning, and strong software engineering fundamentals.",
-  portraitUrl: "/images/portrait.png",
+  portraitUrl: "/images/portrait-nobg.png",
   education: {
     degree: "B.Tech Computer Science and Engineering",
     university: "Rajasthan Technical University (RTU)",

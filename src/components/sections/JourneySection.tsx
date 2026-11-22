@@ -78,12 +78,12 @@ export default function JourneySection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="journey" className="relative py-28 px-6 bg-[#070707]">
+    <section ref={sectionRef} id="journey" className="relative py-28 px-6 bg-transparent scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <RevealText>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#71717A]">
-              07 / Education &amp; Journey
+            <span className="font-mono text-xs tracking-wider text-[#94A3B8]">
+              <span className="text-[#F59E0B]">07.</span> Education &amp; Journey
             </span>
           </RevealText>
           <div className="mt-4">
@@ -94,26 +94,26 @@ export default function JourneySection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mt-16">
           <div className="lg:col-span-4 lg:sticky lg:top-28 self-start flex flex-col gap-8">
             <RevealText>
-              <h2 className="font-serif text-[clamp(2rem,3vw,2.6rem)] leading-[1.1] text-[#F4F4F5] tracking-tight">
+              <h2 className="font-serif font-semibold text-[clamp(2rem,3vw,2.6rem)] leading-[1.1] text-[#94A3B8] tracking-tight text-balance">
                 Building the{" "}
-                <em className="not-italic italic font-normal text-[#F4F4F5]">
+                <span className="text-[#F8FAFC]">
                   foundation.
-                </em>
+                </span>
               </h2>
             </RevealText>
 
             <RevealText delay={0.1}>
-              <div className="rounded-xl border border-white/[0.08] bg-[#0E0E0E] p-6 flex flex-col gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#71717A]">
+              <div className="rounded-xl border border-white/[0.09] bg-[#0B0D12]/86 p-6 flex flex-col gap-3">
+                <span className="font-mono text-[11px] tracking-wider text-[#F59E0B]">
                   Education
                 </span>
-                <h3 className="font-sans text-[14px] font-[500] text-[#F4F4F5] leading-snug">
+                <h3 className="font-sans text-[15px] font-semibold text-[#F8FAFC] leading-snug">
                   {profileData.education.degree}
                 </h3>
-                <p className="font-sans text-[12px] text-[#A1A1AA]">
+                <p className="font-sans text-[13px] text-[#CBD5E1]">
                   {profileData.education.university}
                 </p>
-                <p className="font-mono text-[11px] text-[#71717A]">
+                <p className="font-mono text-xs text-[#94A3B8]">
                   {profileData.education.graduationYear}
                 </p>
               </div>
@@ -121,16 +121,16 @@ export default function JourneySection() {
 
             <RevealText delay={0.15}>
               <div className="flex flex-col gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#71717A]">
+                <span className="font-mono text-[11px] tracking-wider text-[#94A3B8]">
                   Core Coursework
                 </span>
-                <div className="flex flex-wrap gap-2">
-                  {profileData.education.coursework.map((course) => (
-                    <span
-                      key={course}
-                      className="font-mono text-[9px] px-2.5 py-1 rounded-full border border-white/[0.08] bg-[#0E0E0E] text-[#71717A] uppercase tracking-wider"
-                    >
-                      {course.replace(/ \(.*?\)/, "")}
+                <div className="flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-xs text-[#CBD5E1]">
+                  {profileData.education.coursework.map((course, idx, arr) => (
+                    <span key={course} className="inline-flex items-center gap-3">
+                      <span>{course.replace(/ \(.*?\)/, "")}</span>
+                      {idx < arr.length - 1 && (
+                        <span aria-hidden="true" className="text-[#F59E0B]/60">·</span>
+                      )}
                     </span>
                   ))}
                 </div>
@@ -141,10 +141,10 @@ export default function JourneySection() {
           <div className="lg:col-span-8">
             <div className="relative flex gap-8">
               <div className="relative flex flex-col items-center flex-shrink-0 pt-2">
-                <div className="w-px flex-1 bg-white/[0.08]" />
+                <div className="w-px flex-1 bg-white/[0.1]" />
                 <div
                   ref={lineRef}
-                  className="absolute top-0 left-0 right-0 w-px h-full origin-top bg-white/25"
+                  className="absolute top-0 left-0 right-0 w-px h-full origin-top bg-[#F59E0B]/65"
                   style={{ transformOrigin: "top center" }}
                 />
               </div>
@@ -154,30 +154,31 @@ export default function JourneySection() {
                   <RevealText key={m.title} delay={0.08 * i}>
                     <div className="relative flex flex-col gap-1.5">
                       <div
-                        className="absolute -left-[2.6rem] top-1 w-3 h-3 rounded-full border-2 bg-[#070707] flex-shrink-0"
+                        className="absolute -left-[2.6rem] top-1 w-3 h-3 rounded-full border-2 bg-[#060709] flex-shrink-0"
                         style={{
-                          borderColor: m.highlight ? "#D97706" : "rgba(255,255,255,0.4)",
+                          borderColor: m.highlight ? "#F59E0B" : "rgba(248,250,252,0.5)",
                         }}
                       />
 
-                      <div className="flex items-center gap-3 flex-wrap">
+                      <div className="flex items-center gap-2.5 flex-wrap font-mono text-xs">
                         <span
-                          className="font-mono text-[10px] uppercase tracking-widest"
+                          className="tabular-nums tracking-wider"
                           style={{
-                            color: m.highlight ? "#D97706" : "#A1A1AA",
+                            color: m.highlight ? "#F59E0B" : "#7DD3FC",
                           }}
                         >
                           {m.date}
                         </span>
-                        <span className="font-mono text-[10px] px-2 py-0.5 rounded border border-white/[0.08] bg-[#121212] text-[#71717A]">
+                        <span aria-hidden="true" className="text-white/25">·</span>
+                        <span className="text-[#94A3B8]">
                           {m.type}
                         </span>
                       </div>
 
-                      <h3 className="font-sans text-[14px] font-[500] text-[#F4F4F5] leading-snug">
+                      <h3 className="font-sans text-[15px] font-semibold text-[#F8FAFC] leading-snug">
                         {m.title}
                       </h3>
-                      <p className="font-mono text-[10px] text-[#71717A] leading-relaxed">
+                      <p className="font-mono text-xs text-[#94A3B8] leading-relaxed">
                         {m.detail}
                       </p>
                     </div>

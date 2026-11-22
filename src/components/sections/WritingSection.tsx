@@ -12,37 +12,35 @@ function ArticleCard({ article }: { article: ArticleItem }) {
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col gap-4 p-6 rounded-xl border border-white/[0.08] bg-[#0E0E0E] hover:border-white/25 transition-all duration-300 h-full"
+      className="group flex flex-col gap-4 p-6 rounded-xl border border-white/[0.09] bg-[#0B0D12]/86 hover:border-[#F59E0B]/40 transition-all duration-300 h-full"
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-[#A1A1AA]">
+        <span className="font-mono text-[11px] tracking-wider text-[#F59E0B]">
           {article.platform}
         </span>
-        <span className="font-mono text-[10px] text-[#71717A]">
+        <span className="font-mono text-[11px] text-[#94A3B8]">
           {article.publishedAt}
         </span>
       </div>
 
-      <h3 className="font-serif text-[1.15rem] leading-snug text-[#F4F4F5] group-hover:text-[#A1A1AA] transition-colors duration-200">
+      <h3 className="font-serif font-semibold text-[1.15rem] leading-snug text-[#F8FAFC] group-hover:text-[#F59E0B] transition-colors duration-200">
         {article.title}
       </h3>
 
-      <p className="font-sans text-[12px] leading-relaxed text-[#71717A] line-clamp-3 flex-1">
+      <p className="font-sans text-[13px] leading-relaxed text-[#CBD5E1] line-clamp-3 flex-1">
         {article.excerpt}
       </p>
 
-      <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-white/[0.06]">
-        <div className="flex gap-1.5 flex-wrap">
-          {article.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="font-mono text-[9px] px-2 py-0.5 rounded-full border border-white/[0.08] bg-[#121212] text-[#71717A] uppercase tracking-wider"
-            >
-              {tag}
+      <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-white/[0.08]">
+        <div className="flex gap-2 flex-wrap font-mono text-[11px] text-[#7DD3FC]">
+          {article.tags.slice(0, 3).map((tag, idx) => (
+            <span key={tag} className="inline-flex items-center gap-2">
+              {idx > 0 && <span aria-hidden="true" className="text-white/20">·</span>}
+              <span>{tag}</span>
             </span>
           ))}
         </div>
-        <span className="font-mono text-[10px] text-[#71717A]">
+        <span className="font-mono text-[11px] text-[#94A3B8]">
           {article.readTime}
         </span>
       </div>
@@ -57,41 +55,42 @@ function HashnodeFeatureCard() {
         href={profileData.links.hashnode}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex flex-col md:flex-row items-center md:items-start gap-8 p-8 md:p-10 rounded-2xl border border-white/[0.08] bg-[#0E0E0E] hover:border-white/25 transition-all duration-300"
+        className="group flex flex-col md:flex-row items-center md:items-start gap-8 p-8 md:p-10 rounded-2xl border border-white/[0.09] bg-[#0B0D12]/86 hover:border-[#F59E0B]/40 transition-all duration-300"
       >
         <div className="flex flex-col gap-4 flex-1">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#71717A] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
+          <span className="font-mono text-xs tracking-wider text-[#F59E0B]">
             Hashnode · Engineering Notes
           </span>
-          <h3 className="font-serif text-[clamp(1.5rem,3vw,2.2rem)] leading-snug text-[#F4F4F5] group-hover:opacity-90 transition-opacity duration-300">
+          <h3 className="font-serif font-semibold text-[clamp(1.5rem,3vw,2.2rem)] leading-snug text-[#94A3B8] text-balance">
             Engineering Notes &amp;{" "}
-            <em className="not-italic italic font-normal text-[#F4F4F5]">Case Studies</em> on Hashnode
+            <span className="text-[#F8FAFC]">Case Studies</span> on Hashnode
           </h3>
-          <p className="font-sans text-[13px] leading-relaxed text-[#A1A1AA] max-w-lg">
+          <p className="font-sans text-[14px] leading-relaxed text-[#CBD5E1] max-w-lg">
             I write about AI agent architecture, LLM integration patterns,
             full-stack engineering, and CS fundamentals. Articles are published
             on Hashnode and will appear here as they go live.
           </p>
-          <div className="flex items-center gap-2 font-mono text-[11px] text-[#A1A1AA] mt-2 group-hover:text-[#F4F4F5] transition-colors">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#7DD3FC] mt-2 group-hover:text-[#F8FAFC] transition-colors">
             vivekxb.hashnode.dev
-            <ExternalLink size={11} />
+            <ExternalLink size={12} />
           </div>
         </div>
 
         <div
-          className="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-xl border border-white/[0.08] bg-[#121212] flex items-center justify-center opacity-40 group-hover:opacity-75 transition-opacity duration-500"
+          className="flex-shrink-0 w-36 h-36 md:w-44 md:h-44 rounded-xl border border-white/[0.09] bg-[#07090D]/90 flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:border-[#F59E0B]/35 transition-all duration-300"
           aria-hidden="true"
         >
-          <span className="font-mono text-[11px] text-[#71717A] text-center px-4 leading-relaxed">
-            {"{"}
-            <br />
-            &nbsp;&nbsp;articles: 0,
-            <br />
-            &nbsp;&nbsp;// coming soon
-            <br />
-            {"}"}
-          </span>
+          <pre className="font-mono text-[11px] text-[#94A3B8] leading-relaxed px-4">
+            <span className="text-[#F59E0B]">{"{"}</span>
+            {"\n"}
+            {"  "}
+            <span className="text-[#7DD3FC]">articles</span>: <span className="text-[#F8FAFC]">0</span>,
+            {"\n"}
+            {"  "}
+            <span className="text-[#64748B]">status: &quot;soon&quot;</span>
+            {"\n"}
+            <span className="text-[#F59E0B]">{"}"}</span>
+          </pre>
         </div>
       </a>
     </RevealText>
@@ -102,12 +101,12 @@ export default function WritingSection() {
   const isEmpty = writingData.length === 0;
 
   return (
-    <section id="writing" className="relative py-28 px-6 bg-[#070707]">
+    <section id="writing" className="relative py-28 px-6 bg-transparent scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <RevealText>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#71717A]">
-              05 / Technical Writing
+            <span className="font-mono text-xs tracking-wider text-[#94A3B8]">
+              <span className="text-[#F59E0B]">06.</span> Technical Writing
             </span>
           </RevealText>
           <div className="mt-4">

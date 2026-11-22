@@ -35,8 +35,8 @@ export default function Footer() {
     profileData.links.email !== "VERIFY_PUBLIC_EMAIL";
 
   return (
-    <footer id="contact" className="relative overflow-hidden border-t border-white/[0.08] bg-[#070707]">
-      {/* ── Neutral dark ambient pulse ────────────────────────── */}
+    <footer id="contact" className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#060709]/65 scroll-mt-24">
+      {/* ── Subtle amber & slate ambient glow ────────────────────────── */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
@@ -45,7 +45,7 @@ export default function Footer() {
           className="w-[700px] h-[500px] rounded-full"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)",
+              "radial-gradient(ellipse at center, rgba(245,158,11,0.06) 0%, transparent 70%)",
             filter: "blur(110px)",
             animation: "footer-pulse 12s ease-in-out infinite",
           }}
@@ -62,8 +62,8 @@ export default function Footer() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24 flex flex-col gap-16">
         <div>
           <RevealText>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#71717A]">
-              08 / Contact
+            <span className="font-mono text-xs tracking-wider text-[#94A3B8]">
+              <span className="text-[#F59E0B]">08.</span> Contact
             </span>
           </RevealText>
           <div className="mt-4">
@@ -72,11 +72,11 @@ export default function Footer() {
         </div>
 
         <RevealText>
-          <h2 className="font-serif text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.95] tracking-tight text-[#F4F4F5] max-w-3xl">
+          <h2 className="font-serif font-semibold text-[clamp(2.5rem,6.5vw,5rem)] leading-[0.98] tracking-tight text-[#94A3B8] max-w-3xl text-balance">
             Something great{" "}
-            <em className="not-italic italic font-normal text-[#F4F4F5]">
+            <span className="text-[#F8FAFC]">
               starts with a hello.
-            </em>
+            </span>
           </h2>
         </RevealText>
 
@@ -85,11 +85,11 @@ export default function Footer() {
             {emailIsVerified ? (
               <button
                 onClick={handleCopyEmail}
-                className="relative flex items-center gap-2.5 px-6 py-3 rounded-xl border border-white/15 bg-[#121212] text-[#F4F4F5] font-sans text-sm hover:border-white/35 transition-all duration-300 overflow-hidden group"
+                className="relative flex items-center gap-2.5 px-6 py-3 rounded-xl border border-white/15 bg-[#0B0D12]/80 text-[#F8FAFC] font-sans text-sm hover:border-[#F59E0B]/50 transition-all duration-300 overflow-hidden group whitespace-nowrap shrink-0"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   {copied ? (
-                    <Check size={14} className="text-[#D97706]" />
+                    <Check size={14} className="text-[#F59E0B]" />
                   ) : (
                     <Copy size={14} />
                   )}
@@ -101,16 +101,22 @@ export default function Footer() {
                 />
               </button>
             ) : (
-              <span className="px-6 py-3 rounded-xl border border-white/10 bg-[#121212] font-mono text-[11px] text-[#71717A] opacity-60 cursor-not-allowed">
-                Email — verify in profile.ts
-              </span>
+              <a
+                href={profileData.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl border border-white/15 bg-[#0B0D12]/80 text-[#F8FAFC] font-sans text-sm font-medium hover:border-white/35 transition-all duration-300 whitespace-nowrap shrink-0"
+              >
+                Explore GitHub
+                <ExternalLink size={13} />
+              </a>
             )}
 
             <a
               href={profileData.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl border border-white/15 bg-[#121212] text-[#F4F4F5] font-sans text-sm font-[500] hover:border-white/35 hover:bg-[#181818] transition-all duration-300"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl border border-[#F59E0B]/40 bg-[#F59E0B]/15 text-[#F8FAFC] font-sans text-sm font-semibold hover:border-[#F59E0B] hover:bg-[#F59E0B]/25 transition-all duration-300 whitespace-nowrap shrink-0"
             >
               Connect on LinkedIn
               <ExternalLink size={13} />
@@ -126,7 +132,7 @@ export default function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-[11px] text-[#71717A] hover:text-[#F4F4F5] transition-colors duration-200 uppercase tracking-wider"
+                className="font-mono text-xs text-[#94A3B8] hover:text-[#F59E0B] transition-colors duration-200 tracking-wider"
               >
                 {link.label} ↗
               </a>
@@ -137,11 +143,11 @@ export default function Footer() {
         <Hairline />
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <span className="font-mono text-[10px] text-[#71717A]">
+          <span className="font-mono text-[11px] text-[#94A3B8]">
             © {CURRENT_YEAR} Vivek Kumar. Built with Next.js, GSAP, Lenis &amp; Framer Motion.
           </span>
-          <span className="font-mono text-[10px] text-[#71717A]">
-            Luxury monochrome editorial design · zero fake metrics
+          <span className="font-mono text-[11px] text-[#94A3B8]">
+            B.Tech CSE · AI &amp; Software Engineering
           </span>
         </div>
       </div>

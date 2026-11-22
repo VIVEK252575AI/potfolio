@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -12,6 +13,8 @@ import {
 } from "lucide-react";
 import type { ProjectItem } from "@/data/projects";
 
+const emptySubscribe = () => () => {};
+
 interface ProjectDrawerProps {
   project: ProjectItem | null;
   onClose: () => void;
@@ -19,13 +22,19 @@ interface ProjectDrawerProps {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#71717A] block mb-3">
+    <span className="font-mono text-[11px] tracking-wider text-[#F59E0B] block mb-3">
       {children}
     </span>
   );
 }
 
 export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) {
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
   useEffect(() => {
     if (project) {
       document.body.style.overflow = "hidden";
@@ -45,13 +54,15 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {project && (
         <>
           <motion.div
             key="drawer-backdrop"
-            className="fixed inset-0 z-[80] bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-[80] bg-black/82"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -65,36 +76,35 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
             role="dialog"
             aria-modal="true"
             aria-label={`${project.title} case study`}
-            className="fixed top-0 right-0 bottom-0 z-[90] w-full max-w-xl flex flex-col bg-[#0E0E0E] border-l border-white/[0.08] overflow-y-auto"
+            className="fixed top-0 right-0 bottom-0 z-[90] w-full max-w-xl flex flex-col bg-[#0B0D12] border-l border-white/[0.1] overflow-y-auto"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 320, damping: 36 }}
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-start justify-between gap-4 px-7 py-6 bg-[#0E0E0E] border-b border-white/[0.08]">
+            <div className="sticky top-0 z-10 flex items-start justify-between gap-4 px-7 py-6 bg-[#0B0D12] border-b border-white/[0.09]">
               <div className="flex flex-col gap-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-[#F4F4F5] flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
+                <div className="flex items-center gap-2 flex-wrap font-mono text-[11px] text-[#94A3B8]">
+                  <span className="text-[#F59E0B]">
                     {project.status}
                   </span>
                   {project.year && (
-                    <span className="font-mono text-[10px] text-[#71717A]">
+                    <span>
                       · {project.year}
                     </span>
                   )}
                 </div>
-                <h2 className="font-serif text-[1.6rem] leading-snug text-[#F4F4F5] truncate">
+                <h2 className="font-serif font-semibold text-[1.6rem] leading-snug text-[#F8FAFC] truncate">
                   {project.title}
                 </h2>
-                <p className="font-sans text-[13px] text-[#A1A1AA] leading-snug">
+                <p className="font-sans text-[13px] text-[#CBD5E1] leading-snug">
                   {project.tagline}
                 </p>
               </div>
               <button
                 onClick={onClose}
-                className="flex-shrink-0 mt-1 p-2 rounded-full border border-white/10 text-[#71717A] hover:text-[#F4F4F5] hover:border-white/25 transition-colors"
+                className="flex-shrink-0 mt-1 p-2 rounded-full border border-white/15 text-[#CBD5E1] hover:text-[#F8FAFC] hover:border-[#F59E0B]/50 transition-colors"
                 aria-label="Close drawer"
               >
                 <X size={16} />
@@ -105,28 +115,28 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
             <div className="flex flex-col gap-9 px-7 py-8">
               <div>
                 <SectionLabel>Problem</SectionLabel>
-                <p className="font-sans text-sm leading-relaxed text-[#A1A1AA]">
+                <p className="font-sans text-sm leading-relaxed text-[#CBD5E1]">
                   {project.caseStudy.problem}
                 </p>
               </div>
 
               <div>
                 <SectionLabel>Solution</SectionLabel>
-                <p className="font-sans text-sm leading-relaxed text-[#A1A1AA]">
+                <p className="font-sans text-sm leading-relaxed text-[#CBD5E1]">
                   {project.caseStudy.solution}
                 </p>
               </div>
 
               <div>
                 <SectionLabel>Architecture</SectionLabel>
-                <p className="font-sans text-sm leading-relaxed text-[#A1A1AA]">
+                <p className="font-sans text-sm leading-relaxed text-[#CBD5E1]">
                   {project.caseStudy.architectureSummary}
                 </p>
               </div>
 
               <div>
                 <SectionLabel>My Contribution</SectionLabel>
-                <p className="font-sans text-sm leading-relaxed text-[#A1A1AA]">
+                <p className="font-sans text-sm leading-relaxed text-[#CBD5E1]">
                   {project.caseStudy.myContribution}
                 </p>
               </div>
@@ -138,9 +148,9 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
                     <li key={f} className="flex items-start gap-3">
                       <CheckCircle2
                         size={14}
-                        className="text-[#A1A1AA] flex-shrink-0 mt-0.5"
+                        className="text-[#7DD3FC] flex-shrink-0 mt-0.5"
                       />
-                      <span className="font-sans text-sm text-[#A1A1AA] leading-relaxed">
+                      <span className="font-sans text-sm text-[#CBD5E1] leading-relaxed">
                         {f}
                       </span>
                     </li>
@@ -150,13 +160,13 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
 
               <div>
                 <SectionLabel>Tech Stack</SectionLabel>
-                <div className="flex flex-wrap gap-2">
-                  {project.techStack.map((t) => (
-                    <span
-                      key={t}
-                      className="font-mono text-[10px] px-2.5 py-1 rounded border border-white/[0.08] bg-[#121212] text-[#A1A1AA] uppercase tracking-wider"
-                    >
-                      {t}
+                <div className="flex flex-wrap gap-x-3 gap-y-1.5 font-mono text-xs text-[#7DD3FC]">
+                  {project.techStack.map((t, idx, arr) => (
+                    <span key={t} className="inline-flex items-center gap-3">
+                      <span>{t}</span>
+                      {idx < arr.length - 1 && (
+                        <span aria-hidden="true" className="text-white/20">/</span>
+                      )}
                     </span>
                   ))}
                 </div>
@@ -171,9 +181,9 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
                         <li key={c} className="flex items-start gap-3">
                           <Zap
                             size={14}
-                            className="text-[#D97706] flex-shrink-0 mt-0.5"
+                            className="text-[#F59E0B] flex-shrink-0 mt-0.5"
                           />
-                          <span className="font-sans text-sm text-[#A1A1AA] leading-relaxed">
+                          <span className="font-sans text-sm text-[#CBD5E1] leading-relaxed">
                             {c}
                           </span>
                         </li>
@@ -190,12 +200,12 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
                       {project.caseStudy.verifiedMetrics.map((m) => (
                         <div
                           key={m.label}
-                          className="flex flex-col gap-1 p-4 rounded-xl bg-[#070707] border border-white/[0.08]"
+                          className="flex flex-col gap-1 p-4 rounded-xl bg-[#060709] border border-white/[0.09]"
                         >
-                          <span className="font-mono text-xs text-[#F4F4F5] font-[500]">
+                          <span className="font-mono text-xs text-[#F8FAFC] font-medium tabular-nums">
                             {m.value}
                           </span>
-                          <span className="font-sans text-[11px] text-[#71717A]">
+                          <span className="font-sans text-xs text-[#94A3B8]">
                             {m.label}
                           </span>
                         </div>
@@ -267,6 +277,7 @@ export default function ProjectDrawer({ project, onClose }: ProjectDrawerProps) 
           </motion.aside>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

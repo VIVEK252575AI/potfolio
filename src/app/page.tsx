@@ -9,12 +9,14 @@ import WritingSection from "@/components/sections/WritingSection";
 import ArchitectureBanner from "@/components/sections/ArchitectureBanner";
 import JourneySection from "@/components/sections/JourneySection";
 import Hairline from "@/components/motion/Hairline";
+import CoderScrollBackground from "@/components/motion/CoderScrollBackground";
 
 export default function Home() {
   return (
     <>
+      <CoderScrollBackground />
       <Navbar />
-      <main>
+      <main className="relative z-10">
         {/* 01 — Hero */}
         <Hero />
 

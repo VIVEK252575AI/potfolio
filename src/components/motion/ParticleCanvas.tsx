@@ -25,7 +25,7 @@ interface Props {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const N = 1400; // Increased particle density
+const N = 520; // Balanced particle density for smooth compositing
 const LERP = 0.06; // position lerp speed
 const HOVER_RADIUS = 130; // pointer repulsion radius (px)
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5)); // Fibonacci golden angle
@@ -293,9 +293,12 @@ export default function ParticleCanvas({ mode, className = "" }: Props) {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
+    let lastFrame = 0;
     const loop = (ts: number) => {
       rafRef.current = requestAnimationFrame(loop);
       if (!visibleRef.current) return;
+      if (ts - lastFrame < 32) return;
+      lastFrame = ts;
 
       timeRef.current = ts;
       const rect = canvas.getBoundingClientRect();

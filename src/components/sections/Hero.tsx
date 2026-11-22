@@ -1,35 +1,48 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { profileData } from "@/data/profile";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const HeroPortrait3D = dynamic(
+  () => import("@/components/three/HeroPortrait3D"),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="w-full h-full flex items-center justify-center"
+        aria-hidden="true"
+      />
+    ),
+  }
+);
+
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const portraitWrapRef = useRef<HTMLDivElement>(null);
-  const portraitImgRef = useRef<HTMLDivElement>(null);
+  const portraitInnerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const hero = heroRef.current;
     const portraitWrap = portraitWrapRef.current;
-    const portraitImg = portraitImgRef.current;
+    const portraitInner = portraitInnerRef.current;
     const nameWords = nameRef.current?.querySelectorAll<HTMLElement>(
       "[data-hero-word]"
     );
-    if (!hero || !portraitWrap || !portraitImg || !nameWords?.length) return;
+    if (!hero || !portraitWrap || !portraitInner || !nameWords?.length) return;
 
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
     if (prefersReduced) {
-      gsap.set([portraitImg, contentRef.current, ...nameWords], {
+      gsap.set([portraitInner, contentRef.current, ...nameWords], {
         opacity: 1,
         scale: 1,
         yPercent: 0,
@@ -42,14 +55,14 @@ export default function Hero() {
 
     mountTl
       .fromTo(
-        portraitImg,
-        { opacity: 0, scale: 1.05 },
-        { opacity: 1, scale: 1, duration: 1.2 }
+        portraitInner,
+        { opacity: 0, scale: 1.04 },
+        { opacity: 1, scale: 1, duration: 1.05 }
       )
       .fromTo(
         contentRef.current,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.9 },
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.85 },
         "-=0.7"
       )
       .fromTo(
@@ -57,19 +70,19 @@ export default function Hero() {
         { yPercent: 115 },
         {
           yPercent: 0,
-          duration: 0.85,
-          stagger: 0.12,
+          duration: 0.8,
+          stagger: 0.1,
           ease: "power4.out",
           clearProps: "transform",
         },
         "-=0.75"
       );
 
-    // ── Scroll-scrubbed parallax & fade (tied to Hero scroll progress) ────
+    // ── Scroll-scrubbed parallax & fade ───────────────────────────────────
     const scrollTween = gsap.to(portraitWrap, {
-      yPercent: -18,
-      scale: 0.94,
-      opacity: 0.15,
+      yPercent: -12,
+      scale: 0.96,
+      opacity: 0.35,
       ease: "none",
       scrollTrigger: {
         trigger: hero,
@@ -90,90 +103,76 @@ export default function Hero() {
     <section
       ref={heroRef}
       id="hero"
-      className="relative min-h-screen flex flex-col justify-between px-6 pt-28 pb-12 overflow-hidden bg-[#070707]"
+      className="relative min-h-screen flex flex-col justify-between px-6 pt-20 sm:pt-24 pb-6 overflow-hidden bg-transparent"
     >
       {/* ── Left margin vertical micro-label on desktop ──────────────────────── */}
       <div
         aria-hidden="true"
-        className="hidden xl:flex absolute left-8 top-1/2 -translate-y-1/2 flex-col items-center gap-5 text-[#71717A] font-mono text-[10px] tracking-widest [writing-mode:vertical-lr] rotate-180 select-none opacity-60"
+        className="hidden xl:flex absolute left-8 top-1/2 -translate-y-1/2 flex-col items-center gap-5 text-[#94A3B8] font-mono text-[10px] tracking-widest [writing-mode:vertical-lr] rotate-180 select-none opacity-75"
       >
-        <span>01 / PRESENCE</span>
-        <span className="text-[#D97706]">+</span>
-        <span>AI SYSTEMS / FULL-STACK / ALGORITHMS</span>
+        <span>01. PRESENCE</span>
+        <span className="text-[#F59E0B]">+</span>
+        <span>AI SYSTEMS · FULL-STACK · 3D INTERACTION</span>
       </div>
 
       {/* ── Top micro-metadata row ───────────────────────────────────────────── */}
-      <div className="relative z-10 max-w-5xl w-full mx-auto flex items-center justify-between text-[11px] font-mono uppercase text-[#71717A] tracking-wider pt-2">
+      <div className="relative z-10 max-w-5xl w-full mx-auto flex items-center justify-between text-[11px] font-mono text-[#94A3B8] tracking-wider pt-1">
         <div className="flex items-center gap-2">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#D97706] shadow-[0_0_8px_rgba(217,119,6,0.7)]" />
-          <span>Aspiring AI &amp; Software Engineer</span>
+          <span className="text-[#F59E0B]">&gt;_</span>
+          <span className="text-[#CBD5E1]">Aspiring AI &amp; Software Engineer</span>
         </div>
         <div>
           <span>B.Tech CSE &rsquo;27 · India</span>
         </div>
       </div>
 
-      {/* ── Main Composition: Portrait + Overlapping Name ─────────────────────── */}
-      <div className="relative z-10 max-w-4xl w-full mx-auto flex flex-col items-center my-auto pt-6 pb-4">
-        {/* Center Portrait with radial/bottom vignette mask & GSAP parallax */}
+      {/* ── Main Composition: Interactive 3D Portrait Sculpture + Name ──────── */}
+      <div className="relative z-10 max-w-5xl w-full mx-auto flex flex-col items-center my-auto pt-2 pb-2">
         <div
           ref={portraitWrapRef}
-          className="relative w-[280px] sm:w-[340px] md:w-[390px] aspect-[4/5] will-change-transform"
+          className="relative w-full max-w-[660px] h-[300px] sm:h-[390px] md:h-[430px] will-change-transform"
         >
-          <div
-            ref={portraitImgRef}
-            className="w-full h-full relative opacity-0 [mask-image:radial-gradient(ellipse_72%_78%_at_50%_40%,black_45%,transparent_98%)]"
-          >
-            {profileData.portraitUrl ? (
-              <Image
-                src={profileData.portraitUrl}
-                alt={profileData.name}
-                fill
-                priority
-                sizes="(max-width: 768px) 340px, 390px"
-                className="object-cover object-top grayscale contrast-110 select-none pointer-events-none"
-              />
-            ) : (
-              <div className="w-full h-full bg-[#0E0E0E] rounded-full border border-white/5" />
-            )}
+          <div ref={portraitInnerRef} className="w-full h-full opacity-0">
+            <HeroPortrait3D
+              src={profileData.portraitUrl || "/images/portrait-nobg.png"}
+              alt={profileData.name}
+              className="w-full h-full"
+            />
           </div>
         </div>
 
         {/* Content container (Name, headline, buttons) */}
         <div
           ref={contentRef}
-          className="relative z-10 flex flex-col items-center text-center -mt-14 md:-mt-20 w-full"
+          className="relative z-10 flex flex-col items-center text-center -mt-16 sm:-mt-20 md:-mt-24 w-full"
         >
-          {/* Overlapping Oversized Display Name */}
+          {/* Oversized Coder Display Name */}
           <h1
             ref={nameRef}
-            className="font-serif text-[clamp(4.2rem,11vw,9.2rem)] leading-[0.92] tracking-[-0.03em] text-[#F4F4F5] select-none"
+            className="font-serif font-semibold text-[clamp(3.2rem,8.5vw,7.4rem)] leading-[0.94] tracking-[-0.035em] select-none"
           >
             <span className="inline-block overflow-hidden align-bottom pb-[0.06em]">
-              <span data-hero-word className="inline-block">
+              <span data-hero-word className="inline-block text-[#94A3B8]">
                 Vivek
               </span>
             </span>{" "}
             <span className="inline-block overflow-hidden align-bottom pb-[0.06em]">
-              <em
-                data-hero-word
-                className="inline-block not-italic italic font-normal text-[#F4F4F5]"
-              >
+              <span data-hero-word className="inline-block text-[#F8FAFC]">
                 Kumar
-              </em>
+              </span>
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-5 max-w-lg font-sans text-sm md:text-base leading-relaxed text-[#A1A1AA]">
+          <p className="mt-4 max-w-xl font-sans text-sm md:text-[15px] leading-relaxed text-[#CBD5E1]">
             {profileData.headline}
           </p>
 
-          {/* Monochrome Action Row */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          {/* Action Row */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <a
               href="#work"
-              className="flex items-center gap-2 rounded-full border border-white/15 bg-[#111111] px-6 py-3 text-sm font-sans font-[500] text-[#F4F4F5] hover:border-white/35 hover:bg-[#171717] transition-all duration-300"
+              className="flex items-center gap-2 rounded-xl border border-[#F59E0B]/45 bg-[#0B0D12]/90 px-6 py-2.5 text-sm font-sans font-semibold text-[#F8FAFC] hover:border-[#F59E0B] hover:bg-[#F59E0B]/15 transition-all duration-300 whitespace-nowrap shrink-0"
             >
               Explore my work ↓
             </a>
@@ -182,16 +181,16 @@ export default function Hero() {
                 href={profileData.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-sans text-sm text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors"
+                className="font-mono text-xs text-[#CBD5E1] hover:text-[#F59E0B] transition-colors whitespace-nowrap shrink-0"
               >
                 GitHub ↗
               </a>
-              <span className="text-[#71717A] text-xs">/</span>
+              <span className="text-[#64748B] text-xs">/</span>
               <a
                 href={profileData.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-sans text-sm text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors"
+                className="font-mono text-xs text-[#CBD5E1] hover:text-[#38BDF8] transition-colors whitespace-nowrap shrink-0"
               >
                 LinkedIn ↗
               </a>
@@ -200,30 +199,32 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* A low contrast ticker adds a moving editorial detail without competing with the portrait. */}
-      <div className="hero-marquee" aria-hidden="true">
-        <div className="hero-marquee-track">
-          <span>
-            AI systems <i>·</i> full-stack software <i>·</i> thoughtful
-            engineering <i>·</i> algorithms <i>·</i>&nbsp;
-          </span>
-          <span>
-            AI systems <i>·</i> full-stack software <i>·</i> thoughtful
-            engineering <i>·</i> algorithms <i>·</i>&nbsp;
-          </span>
+      {/* Non-overlapping editorial ticker cleanly separated above bottom bar */}
+      <div className="w-full flex flex-col gap-3">
+        <div className="hero-marquee" aria-hidden="true">
+          <div className="hero-marquee-track">
+            <span>
+              AI systems <i>·</i> full-stack software <i>·</i> interactive 3D
+              engineering <i>·</i> algorithms <i>·</i>&nbsp;
+            </span>
+            <span>
+              AI systems <i>·</i> full-stack software <i>·</i> interactive 3D
+              engineering <i>·</i> algorithms <i>·</i>&nbsp;
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* ── Bottom borderless 3-column monospace status bar ───────────────────── */}
-      <div className="relative z-10 max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 text-center md:text-left pt-6 border-t border-white/[0.06] text-[11px] font-mono uppercase tracking-wider text-[#71717A]">
-        <div>
-          <span>Scroll to discover ↓</span>
-        </div>
-        <div className="md:text-center text-[#A1A1AA]">
-          <span>NVIDIA Deep Learning · Build with AI</span>
-        </div>
-        <div className="md:text-right">
-          <span>Open to 2027 SWE &amp; AI Roles</span>
+        {/* Bottom borderless 3-column monospace status bar */}
+        <div className="relative z-10 max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-center md:text-left pt-4 border-t border-white/[0.08] text-[11px] font-mono tracking-wider text-[#94A3B8]">
+          <div>
+            <span>Move cursor &amp; scroll to explore 3D field ↓</span>
+          </div>
+          <div className="md:text-center text-[#CBD5E1]">
+            <span>NVIDIA Deep Learning · Build with AI</span>
+          </div>
+          <div className="md:text-right text-[#F59E0B]">
+            <span>Open to 2027 SWE &amp; AI Roles</span>
+          </div>
         </div>
       </div>
     </section>

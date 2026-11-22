@@ -24,12 +24,12 @@ const PILLARS = [
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="relative py-28 px-6 bg-[#070707]">
+    <section id="skills" className="relative py-28 px-6 bg-transparent scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <RevealText>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#71717A]">
-              03 / Technical Stack
+            <span className="font-mono text-xs tracking-wider text-[#94A3B8]">
+              <span className="text-[#F59E0B]">03.</span> Technical Stack
             </span>
           </RevealText>
           <div className="mt-4">
@@ -40,16 +40,16 @@ export default function SkillsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mt-16">
           <div className="lg:col-span-5 lg:sticky lg:top-28 self-start flex flex-col gap-10">
             <RevealText>
-              <h2 className="font-serif text-[clamp(2.1rem,3.5vw,2.8rem)] leading-[1.1] text-[#F4F4F5] tracking-tight">
+              <h2 className="font-serif font-semibold text-[clamp(2.1rem,3.5vw,2.8rem)] leading-[1.1] text-[#94A3B8] tracking-tight text-balance">
                 Fundamentals first.{" "}
-                <em className="not-italic italic font-normal text-[#F4F4F5]">
+                <span className="text-[#F8FAFC]">
                   Systems that hold up.
-                </em>
+                </span>
               </h2>
             </RevealText>
 
             <RevealText delay={0.1}>
-              <p className="font-sans text-sm leading-relaxed text-[#A1A1AA]">
+              <p className="font-sans text-[15px] leading-relaxed text-[#CBD5E1]">
                 I focus on building a durable technical base across AI systems,
                 full-stack development, and CS fundamentals — with C++ as my
                 primary language for algorithmic work and Python for ML
@@ -61,14 +61,14 @@ export default function SkillsSection() {
               {PILLARS.map((p, i) => (
                 <RevealText key={p.index} delay={0.08 * i}>
                   <div className="flex gap-4">
-                    <span className="font-mono text-[10px] text-[#D97706] mt-1 flex-shrink-0 w-5">
+                    <span className="font-mono text-xs font-medium text-[#F59E0B] tabular-nums mt-0.5 flex-shrink-0 w-5">
                       {p.index}
                     </span>
                     <div className="flex flex-col gap-1">
-                      <span className="font-sans text-[13px] font-[500] text-[#F4F4F5]">
+                      <span className="font-sans text-[14px] font-semibold text-[#F8FAFC]">
                         {p.title}
                       </span>
-                      <p className="font-sans text-[12px] leading-relaxed text-[#71717A]">
+                      <p className="font-sans text-[13px] leading-relaxed text-[#B4BCC8]">
                         {p.body}
                       </p>
                     </div>
@@ -81,24 +81,26 @@ export default function SkillsSection() {
           <div className="lg:col-span-7 flex flex-col gap-5">
             {skillsData.map((cat, i) => (
               <RevealText key={cat.category} delay={0.05 * i}>
-                <div className="rounded-xl border border-white/[0.08] bg-[#0E0E0E] p-6 hover:border-white/20 transition-colors duration-300">
+                <div className="rounded-xl border border-white/[0.09] bg-[#0B0D12]/86 p-6 hover:border-[#F59E0B]/35 transition-colors duration-300">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#A1A1AA]">
+                    <span className="font-mono text-xs tracking-wider text-[#F8FAFC]">
                       {cat.category}
                     </span>
-                    <span className="h-px flex-1 bg-white/[0.06]" />
-                    <span className="font-mono text-[10px] text-[#71717A]">
+                    <span className="h-px flex-1 bg-white/[0.08]" />
+                    <span className="font-mono text-xs text-[#F59E0B] tabular-nums">
                       {cat.skills.length}
                     </span>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {cat.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="font-sans text-[12px] px-3 py-1.5 rounded-lg border border-white/[0.08] bg-[#121212] text-[#A1A1AA] hover:border-white/25 hover:text-[#F4F4F5] transition-colors duration-200 cursor-default"
-                      >
-                        {skill}
+                  <div className="flex flex-wrap gap-x-3 gap-y-2 font-mono text-xs text-[#CBD5E1]">
+                    {cat.skills.map((skill, idx, arr) => (
+                      <span key={skill} className="inline-flex items-center gap-3">
+                        <span className="hover:text-[#7DD3FC] transition-colors cursor-default">
+                          {skill}
+                        </span>
+                        {idx < arr.length - 1 && (
+                          <span aria-hidden="true" className="text-white/20">·</span>
+                        )}
                       </span>
                     ))}
                   </div>

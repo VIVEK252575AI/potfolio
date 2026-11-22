@@ -7,24 +7,27 @@ import RevealText from "@/components/motion/RevealText";
 import Hairline from "@/components/motion/Hairline";
 import dynamic from "next/dynamic";
 
-const ParticleCanvas = dynamic(
-  () => import("@/components/motion/ParticleCanvas"),
+const AboutModel3D = dynamic(
+  () => import("@/components/three/AboutModel3D"),
   { ssr: false }
 );
 
-const TABS: { label: string; mode: CanvasMode; desc: string }[] = [
+const TABS: { label: string; modelTitle: string; mode: CanvasMode; desc: string }[] = [
   {
     label: "AI Systems",
+    modelTitle: "3D Model: Neural Tensor Core",
     mode: "ai",
     desc: "Building production-grade LLM applications, agentic workflows, and multimodal AI systems. Comfortable with the full pipeline from prompt engineering to API integration.",
   },
   {
     label: "Full-Stack",
+    modelTitle: "3D Model: Layered Compute Stack",
     mode: "fullstack",
     desc: "Comfortable shipping from database schema to React UI: REST APIs with Node/Express, Next.js App Router, Tailwind layouts, and PostgreSQL/MongoDB data modeling.",
   },
   {
     label: "DSA / C++",
+    modelTitle: "3D Model: Geodesic Graph Matrix",
     mode: "dsa",
     desc: "Competitive programming background in C++. Strong in data structures, algorithmic problem-solving, complexity analysis, and CS fundamentals (OS, DBMS, CN, OOP).",
   },
@@ -34,13 +37,16 @@ export default function AboutSection() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <section id="about" className="relative py-28 px-6 overflow-hidden bg-[#070707]">
+    <section
+      id="about"
+      className="relative py-28 px-6 overflow-hidden bg-transparent scroll-mt-24"
+    >
       <div className="max-w-6xl mx-auto">
         {/* ── Section index ───────────────────────────────────────── */}
         <div className="mb-8">
           <RevealText>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#71717A]">
-              01 / Engineering Philosophy
+            <span className="font-mono text-xs tracking-wider text-[#94A3B8]">
+              <span className="text-[#F59E0B]">01.</span> Engineering Philosophy
             </span>
           </RevealText>
           <div className="mt-4">
@@ -49,43 +55,40 @@ export default function AboutSection() {
         </div>
 
         {/* ── Two-column split ─────────────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mt-16">
-          {/* ── Left: Canvas + tab pills (Frameless) ────────────────── */}
-          <div className="flex flex-col gap-6">
-            {/* Frameless ParticleCanvas without rectangular border box */}
-            <div className="relative w-full aspect-square max-w-sm mx-auto lg:mx-0 overflow-hidden">
-              <ParticleCanvas mode={TABS[activeTab].mode} className="w-full h-full" />
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, transparent 65%, #070707 98%)",
-                }}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mt-14">
+          {/* ── Left: LARGE interactive Three.js 3D Model Showcase ───── */}
+          <div className="lg:col-span-6 flex flex-col gap-5">
+            <div className="relative w-full h-[420px] sm:h-[490px] lg:h-[530px] overflow-hidden rounded-2xl bg-[#090B10]/85 border border-white/[0.08]">
+              <AboutModel3D
+                mode={TABS[activeTab].mode}
+                className="w-full h-full"
               />
             </div>
 
-            {/* Monochrome Framer Motion layoutId pill tabs */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#94A3B8] px-1">
+              <span className="text-[#CBD5E1]">{TABS[activeTab].modelTitle}</span>
+              <span>Move cursor to spotlight · drag or scroll to orbit</span>
+            </div>
+
+            {/* Segmented mode selector tabs */}
             <div className="flex gap-2 flex-wrap">
               {TABS.map((tab, i) => (
                 <button
                   key={tab.label}
                   onClick={() => setActiveTab(i)}
-                  className="relative px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider transition-colors duration-200 outline-none border border-white/10 hover:border-white/25 bg-[#121212]"
+                  className="relative px-4 py-2 rounded-lg text-xs font-mono tracking-wider transition-colors duration-200 outline-none border border-white/10 hover:border-[#F59E0B]/40 bg-[#0B0D12]/90 whitespace-nowrap shrink-0"
                   style={{
-                    color: activeTab === i ? "#F4F4F5" : "#71717A",
+                    color: activeTab === i ? "#F8FAFC" : "#94A3B8",
                   }}
                 >
                   {activeTab === i && (
                     <motion.div
                       layoutId="about-tab-pill"
-                      className="absolute inset-0 rounded-full bg-white/[0.08] border border-white/20"
+                      className="absolute inset-0 rounded-lg bg-[#F59E0B]/15 border border-[#F59E0B]/45"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
                   )}
                   <span className="relative z-10 flex items-center gap-1.5">
-                    {activeTab === i && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
-                    )}
                     {tab.label}
                   </span>
                 </button>
@@ -93,21 +96,19 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* ── Right: Editorial text ────────────────────────────────── */}
-          <div className="flex flex-col gap-8 lg:pt-4">
-            {/* Crisp off-white display headline */}
+          {/* ── Right: Editorial coder prose ─────────────────────────── */}
+          <div className="lg:col-span-6 flex flex-col gap-8">
             <RevealText>
-              <h2 className="font-serif text-[clamp(2.1rem,4vw,3.2rem)] leading-[1.08] text-[#F4F4F5] tracking-tight">
+              <h2 className="font-serif font-semibold text-[clamp(2.1rem,4vw,3.1rem)] leading-[1.08] text-[#94A3B8] tracking-tight text-balance">
                 Undergraduate building at the{" "}
-                <em className="not-italic italic font-normal text-[#F4F4F5]">
-                  intersection
-                </em>{" "}
-                of AI and software engineering.
+                <span className="text-[#F8FAFC]">intersection</span> of{" "}
+                <span className="text-[#F59E0B]">AI</span> and{" "}
+                <span className="text-[#F8FAFC]">software engineering.</span>
               </h2>
             </RevealText>
 
             {/* Animated tab description */}
-            <div className="relative min-h-[80px]">
+            <div className="relative min-h-[84px] p-5 rounded-xl bg-[#0B0D12]/88 border border-white/[0.08]">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={activeTab}
@@ -115,16 +116,16 @@ export default function AboutSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="font-sans text-[0.9375rem] leading-relaxed text-[#A1A1AA]"
+                  className="font-sans text-[0.95rem] leading-relaxed text-[#CBD5E1]"
                 >
                   {TABS[activeTab].desc}
                 </motion.p>
               </AnimatePresence>
             </div>
 
-            {/* Honest narrative */}
+            {/* Narrative */}
             <RevealText delay={0.1}>
-              <p className="font-sans text-sm leading-relaxed text-[#71717A]">
+              <p className="font-sans text-[15px] leading-relaxed text-[#B4BCC8]">
                 I&rsquo;m a B.Tech CSE student at Rajasthan Technical University
                 (Expected 2027), currently focused on building LLM-powered
                 applications, multimodal AI agents, and clean full-stack
@@ -137,18 +138,25 @@ export default function AboutSection() {
               </p>
             </RevealText>
 
-            {/* Coursework chips */}
+            {/* Coursework metadata */}
             <RevealText delay={0.15}>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-[#94A3B8]">
                 {[
-                  "DSA", "OOP", "DBMS", "OS", "CN",
-                  "AI / ML", "Software Engineering",
-                ].map((c) => (
-                  <span
-                    key={c}
-                    className="font-mono text-[10px] px-3 py-1 rounded-full border border-white/[0.08] bg-[#0E0E0E] text-[#71717A] uppercase tracking-wider"
-                  >
-                    {c}
+                  "DSA",
+                  "OOP",
+                  "DBMS",
+                  "OS",
+                  "CN",
+                  "AI / ML",
+                  "Software Engineering",
+                ].map((c, idx, arr) => (
+                  <span key={c} className="inline-flex items-center gap-3">
+                    <span className="text-[#CBD5E1]">{c}</span>
+                    {idx < arr.length - 1 && (
+                      <span aria-hidden="true" className="text-[#F59E0B]/60">
+                        ·
+                      </span>
+                    )}
                   </span>
                 ))}
               </div>
